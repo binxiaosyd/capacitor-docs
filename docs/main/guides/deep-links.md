@@ -83,7 +83,7 @@ There's a variety of options for React. One approach is to wrap the App API list
 
 ```typescript
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 ```
 
@@ -91,14 +91,14 @@ Next, define the AppUrlListener component, listening for the `appUrlOpen` event 
 
 ```typescript
 const AppUrlListener: React.FC<any> = () => {
-  let history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Example url: https://beerswift.app/tabs/tab2
       // slug = /tabs/tab2
       const slug = event.url.split('.app').pop();
       if (slug) {
-        history.push(slug);
+        navigate(slug);
       }
       // If no match, do nothing - let regular routing
       // logic take over
